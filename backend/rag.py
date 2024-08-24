@@ -42,13 +42,3 @@ def setup_chain(documents):
         )
     return qa
 
-path = "../assets/drylab.pdf"
-text = load_pdf(path)
-documents = [Document(page_content=doc) for doc in split_text(text)]
-qa = setup_chain(documents)
-while True:
-    question = input("Ask a question: ")
-    if question.lower() == "exit":
-        break
-    answer = qa.invoke(question)
-    print(answer)

@@ -21,7 +21,7 @@ async def read_file(file: UploadFile = File(...)):
     documents = [Document(page_content=doc) for doc in split_text(text)]
     qa = setup_chain(documents)
     qa_storage['qa'] = qa
-    return json.dumps({"message":"File read complete!!!"})
+    return {"message":"File read complete!!!"}
 
 @app.post('/chat/{question}')
 async def chat_response(question: str):

@@ -60,15 +60,20 @@ app.layout = \
     # prevent_initial_call=True
 )
 def toggle_chat(contents,submit_clicks,filename):
+    print("contents: ",contents)
     if contents:
         if submit_clicks == 0:
             content_type, content_string = contents.split(',')
             decoded = base64.b64decode(content_string)
             response = requests.post("http://127.0.0.1:8000/fetch",files={"file": (filename, decoded, 'application/pdf')})
-            res = response.json()
-            return f"Success uploaded file '{filename}'. Click SUBMIT to start conversation",{'display':'flex'},False,{'display':'None'}
+            if response.status_code == 200:
+                # res = response.json()
+                return f"Success uploaded file '{filename}'. Click SUBMIT to start conversation",{'display':'flex'},False,{'display':'None'}
+            else:
+                return f"Failed to load file '{filename}'. Please try again...",{'display':'None'},False,{'display':'None'}
+
         return f"Success uploaded file '{filename}'. \nClick SUBMIT to start conversation",{'display':'flex'},False,{'display':'flex'}
-    return ['Drop a file here'],{'display':'None'},True,{'display':'None'}
+    return ['Upload or drop a file here'],{'display':'None'},True,{'display':'None'}
 
 
 
